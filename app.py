@@ -3,19 +3,19 @@ import yt_dlp
 
 app = Flask(__name__)
 
-@app.route('/get_mp4', methods=['POST'])
+@app.route("/get_mp4", methods=["POST"])
 def get_mp4():
     data = request.json
-    url = data.get('url')
+    url = data.get("url")
 
     if not url:
         return jsonify({"error": "No URL provided"}), 400
 
     try:
         ydl_opts = {
-            'quiet': True,
-            'skip_download': True,
-            'format': 'best[ext=mp4]/best',
+            "quiet": True,
+            "skip_download": True,
+            "format": "best[ext=mp4]/best",
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -26,5 +26,8 @@ def get_mp4():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
+
+# This replaces app.run() for Vercel
+def handler(request):
+    with app.request_context(request.environ):
+        return app.full_dispatch_request()
