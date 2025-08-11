@@ -1,11 +1,6 @@
 {
   "version": 2,
-  "functions": {
-    "api/app.py": {
-      "runtime": "@vercel/python"
-    }
-  },
   "routes": [
-    { "src": "/.*", "dest": "api/app.py" }
+    { "src": "/.*", "dest": "api/get_mp4.py" }
   ]
 }
